@@ -9,7 +9,13 @@
 - MongoDB
 
 ---
+
+### 下载
+前往 [Release](https://github.com/changwu/cvparser/releases) 中下载安装包：cvparser-x.x.x-beta.tar.gz
+
+
 ### 安装
+
 ```bash
 $ tar -zxvf cvparser-2.0.0.tar.gz
 $ cd cvparser-2.0.0
