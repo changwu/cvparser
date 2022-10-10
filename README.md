@@ -1,4 +1,4 @@
-## 智能简历解析工具
+## 小芭智能简历解析系统
 
 ### 运行环境
 - Ubuntu Server 16.04、18.04 或 20.04， 推荐 Ubuntu Server 20.04
@@ -106,9 +106,9 @@ $ ./scripts/machine_id.sh
 
 ```
 
-2. 拿机器码找开发者获取 license
+2. 联系我们（微信：wuxiaoba8085，我们提供免费试用版本)获取 license。
 
-3. 拿到license 文件 license-xxxxx.lic 后，将此 license-xxxxx.lic 拷贝到 cvparser-2.0.0/cvparser/config/ 目录下，并重命名为 license.lic
+3. 得到license 文件 license-xxxxx.lic 后，将 license-xxxxx.lic 拷贝到 cvparser-2.0.0/cvparser/config/ 目录下，并重命名为 license.lic
 ```bash
 $ cd cvparser-2.0.0
 $ cp -v license-xxxxx.lic cvparser/config/license.lic
@@ -214,3 +214,14 @@ if __name__ == '__main__':
 
 ```
 
+### 购买须知
+
+小芭智能简历解析系统根据服务目标不同分为三种版本：免费试用版、基础版和专业版。  
+价格和服务内容可以访问网页进行了解：<https://www.ibaguo.com/pricing/>
+
+
+### 联系我们
+
+*   电话： +86 137 2088 1902
+*   邮箱： <xiaoba@ibaguo.com>
+*   微信：wuxiaoba8085
