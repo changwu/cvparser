@@ -2,11 +2,14 @@
 
 ### 运行环境
 - Ubuntu Server 16.04、18.04 或 20.04， 推荐 Ubuntu Server 20.04
-- Miniconda3 Python3.8
-- JDK-8(oracle jdk-1.8)
-- LibreOffice 7.2.7
-- HanLP 1.8
-- MongoDB
+- Miniconda3 Python3.8 *
+- JDK-8(oracle jdk-1.8) *
+- LibreOffice 7.2.7 *
+- HanLP 1.8 *
+- MongoDB *  
+
+
+**说明**：* 无需下载，安装包中已经包含这些组件。
 
 ---
 
