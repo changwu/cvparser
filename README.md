@@ -233,4 +233,6 @@ if __name__ == '__main__':
 
 *   电话： +86 137 2088 1902
 *   邮箱： <xiaoba@ibaguo.com>
-*   微信：wuxiaoba8085
+*   微信：wuxiaoba8085  
+![image](https://www.ibaguo.com/images/contact/wechat.jpg)
+
