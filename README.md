@@ -6,7 +6,7 @@
 - JDK-8(oracle jdk-1.8) *
 - LibreOffice 7.2.7 *
 - HanLP 1.8 *
-- MongoDB *  
+- MongoDB   
 
 
 **说明**：* 无需下载，安装包中已经包含这些组件。
