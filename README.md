@@ -13,6 +13,10 @@
 
 ---
 
+### 服务器配置要求
+- 推荐配置**4核16G内存**以上的服务器配置。
+
+
 ### 下载
 前往 [Release](https://github.com/changwu/cvparser/releases) 中下载安装包：cvparser-x.x.x-beta.tar.gz
 
