@@ -1,0 +1,46 @@
+version: "3.8"
+services:
+  cvparser:
+    image: changwu0917/cvparser:latest
+    restart: always
+    ports:
+      - "5000:5000"   # cvparser 服务端口号， 可根据实际情况修改冒号(:)前的端口供外部访问
+    depends_on:
+      - mongodb
+    environment:   # 配置环境变量，可传递到 docker container 中
+      HANLP_JVM_XMS: 2g     # JVM 内存分配参数 -Xms
+      HANLP_JVM_XMX: 6g     # JVM 内存分配参数 -Xmx, >= 6G
+      CVPARSER_APP_SECRET_KEY: 6d6b4cdf74d9c03adc88e928f6140734   # Flask App Secret Key, 可根据需要修改
+      CVPARSER_API_TOKEN: ${CVPARSER_API_TOKEN}   # API_TOKEN, 可根据需要通过环境变量 CVPARSER_API_TOKEN 配置或直接设置, 默认未设置
+      CVPARSER_ADMIN_ENABLE: true            # 是否启用 admin 功能, true: 开启, false: 不开启, 默认true
+      MONGO_PORT: "27017"                    # mongodb 端口, 如果 mongodb 通过配置文件修改了服务端口, 这里需要修改为对应的值。如未设置则用默认的端口27017, 默认未设置
+      MONGO_USERNAME: ${MONGO_USERNAME}      # mongodb 用户名, 可根据需要通过环境变量 MONGO_USERNAME 配置, 默认未设置
+      MONGO_PASSWORD: ${MONGO_PASSWORD}      # mongodb 用户密码, 可根据需要通过环境变量 MONGO_PASSWORD 配置, 默认未设置
+    volumes:
+      - type: bind
+        source: ./data          # 挂载简历数据目录, 可根据实际路径修改
+        target: /cvparser/data
+      - type: bind
+        source: ./logs          # 挂载日志目录, 可根据实际路径修改
+        target: /cvparser/logs
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 819200
+        hard: 1048576
+
+  mongodb:
+    image: mongo:focal
+    restart: always
+    ports:
+      - "127.0.0.1:27017:27017"   # mongodb 服务端口
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}  # mongodb 用户名, 可根据需要通过环境变量 MONGO_USERNAME 配置, 默认无
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}  # mongodb 用户密码, 可根据需要通过环境变量 MONGO_PASSWORD 配置, 默认无
+    volumes:
+      - type: bind
+        source: /home/mongodb/data/db   # 挂载数据文件目录， 可根据实际路径修改
+        target: /data/db
+      - type: bind
+        source: /home/mongodb/data/log  # 挂载日志文件目录， 可根据实际路径修改
+        target: /var/log/mongodb
