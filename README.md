@@ -41,7 +41,7 @@
     $ docker-compose up -d
     ```
 
-Windows下可以安装Docker Desktop，参考linux的安装更新帮助进行安装。
+**提示：** Windows下请先安装Docker Desktop，参考上述linux命令进行安装。
 
 
 ---
