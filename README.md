@@ -20,29 +20,28 @@
 
 
 ---
-### Docker 方式启动
-1. 安装 docker 和 docker-compose
-    - Install Docker:  [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
-    - Install Docker-compose:  [https://docs.docker.com/compose/install/other/](https://docs.docker.com/compose/install/other/)
-2. 下载 docker-compose.yml, 从[GitHub仓库](https://github.com/changwu/cvparser) 获取 docker-compose.yml
-3. 启动服务。在 docker-compose.yml 所在目录中执行 docker-compose 命令启动服务。**可参考注释修改 docker-compose.yml**, 启动之前确保挂载目录 volumes.source 所指向的路径存在。
+### Docker 安装 （推荐：需要安装docker和docker-compose）
+1. 安装（linux环境）。
   
     ```bash
     $ git clone https://github.com/changwu/cvparser.git
     $ cd cvparser
+    # 可参考docker-compose.yml中注释修改参数, 启动之前确保挂载目录 volumes.source 所指向的路径存在。
     # volumes.source 路径如果不存在，使用 mkdir -p 创建目录
     $ sudo mkdir -p /home/mongodb/data/{db,log}
     $ sudo mkdir -p data logs
-    # 启动服务
+    # 启动值守服务
     $ docker-compose up -d
     ```
-4. 更新
+2. 更新
     ```bash
     $ cd cvparser
     $ docker-compose down
     $ docker-compose pull
     $ docker-compose up -d
     ```
+
+Windows下可以安装Docker Desktop，参考linux的安装更新帮助进行安装。
 
 
 ---
