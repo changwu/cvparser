@@ -3,7 +3,7 @@
 ### 运行环境
 - 硬盘：100G+
 - 内存：16G+
-- 操作系统：Ubuntu Server 16.04、18.04 或 20.04， 推荐 Ubuntu Server 20.04
+- 操作系统：Ubuntu Server 16.04、18.04 或 20.04，centos 7.6, centos 7.9 推荐 Ubuntu Server 20.04
 - Miniconda3 Python3.8 *
 - JDK-8(oracle jdk-1.8) *
 - LibreOffice 7.2.7 *
@@ -22,24 +22,27 @@
 ---
 ### Docker 安装 （推荐：需要安装docker和docker-compose）
 1. 安装（linux环境）。
-  
-    ```bash
-    $ git clone https://github.com/changwu/cvparser.git
-    $ cd cvparser
-    # 可参考docker-compose.yml中注释修改参数, 启动之前确保挂载目录 volumes.source 所指向的路径存在。
-    # volumes.source 路径如果不存在，使用 mkdir -p 创建目录
-    $ sudo mkdir -p /home/mongodb/data/{db,log}
-    $ sudo mkdir -p data logs
-    # 启动值守服务
-    $ docker-compose up -d
-    ```
+
+```bash
+$ mkdir cvparser
+$ cd cvparser
+$ wget https://raw.githubusercontent.com/changwu/cvparser/main/docker-compose.yml  # 获取docker-compose.yml文件。
+# 可参考docker-compose.yml中注释修改参数, 启动之前确保挂载目录 volumes.source 所指向的路径存在。
+# volumes.source 路径如果不存在，使用 mkdir -p 创建目录
+$ sudo mkdir -p /home/mongodb/data/{db,log}
+$ sudo mkdir -p data logs
+# 启动值守服务
+$ docker-compose up -d # 插件方式安装的执行命令： docker compose up -d
+```
 2. 更新
-    ```bash
-    $ cd cvparser
-    $ docker-compose down
-    $ docker-compose pull
-    $ docker-compose up -d
-    ```
+
+
+ ```bash
+ $ cd cvparser
+ $ docker-compose down # 插件方式安装的执行命令： docker compose down
+ $ docker-compose pull # 插件方式安装的执行命令： docker compose pull
+ $ docker-compose up -d # 插件方式安装的执行命令： docker compose up -d
+ ```
 
 **提示：** Windows下请先安装Docker Desktop，参考上述linux命令进行安装。
 
@@ -50,27 +53,30 @@
     前往 [Release](https://github.com/changwu/cvparser/releases) 中下载安装包：cvparser-x.x.x.tar.gz
 
 #### 安装
-    解压后执行 scripts/install.sh 安装， 如：  
-    ```bash
-    $ tar -zxvf cvparser-2.1.0.tar.gz
-    $ cd cvparser-2.1.0
-    $ ./scripts/install.sh
-    ```
 
-    最后如果出现了“dependence tools install finished ......”，但未看到 “智能简历解析工具安装成功” 的提示，说明conda 环境可能未正确初始化，请手动初化 conda 环境后再执行 `scripts/install.sh` :
-    ```bash
-    $ source ~/.bashrc
-    $ ./scripts/install.sh
-    ```
+解压后执行 scripts/install.sh 安装， 如：  
 
+```bash
+$ tar -zxvf cvparser-2.1.1.tar.gz
+$ cd cvparser-2.1.1
+$ ./scripts/install.sh
+```
+
+最后如果出现了“dependence tools install finished ......”，但未看到 “智能简历解析工具安装成功” 的提示，说明conda 环境可能未正确初始化，请手动初化 conda 环境后再执行 `scripts/install.h` :
+
+```bash
+$ source ~/.bashrc
+$ ./scripts/install.sh
+```
 #### 启动服务
-    ```bash
-    $ cd cvparser-2.1.0
-    $ ./scripts/start.sh
-    ```
-    因服务启动时要加载 NLP 相关模块, 请耐心等待一会  
-    **特别提示:** 可以启动多个不同端口的服务，然后通过nginx针对多个服务端口来做负载均衡。  
 
+```bash
+$ cd cvparser-2.1.1
+$ ./scripts/start.sh
+```
+
+因服务启动时要加载 NLP 相关模块, 请耐心等待一会  
+**特别提示:** 可以启动多个不同端口的服务，然后通过nginx针对多个服务端口来做负载均衡。  
 
 ---
 ### 获取License
@@ -200,7 +206,7 @@
 **详细内容请查看[API文档](https://www.ibaguo.com/blog/post-2/)**
 
 ---
-### API 示例
+### API PYTHON 示例
 ```python
 import os
 import requests
@@ -233,6 +239,70 @@ if __name__ == '__main__':
     result = resume_parser('test-resume.txt')
     pprint.pprint(result)
 
+```
+
+### API JAVA 示例
+```java
+import java.io.File;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.Consts;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+public class TestParseApi {
+
+    public static void testResumeParser(String url, String fname, String token) throws Exception {
+    	// 设置头字段
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.addHeader("content-type", "application/json");
+        
+        // 读取简历内容
+    	byte[] bytes = FileUtils.readFileToByteArray(new File(fname));
+    	String data = new String(Base64.encodeBase64(bytes), Consts.UTF_8);
+    	
+        // 设置内容信息
+        JSONObject json = new JSONObject();
+        json.put("token", token);			// token
+        json.put("file_mode", 1);			// 解析模式
+        json.put("file_name", fname);	// 文件名
+        json.put("file_cont", data);	// 经base64编码过的文件内容
+        StringEntity params = new StringEntity(json.toString(), Consts.UTF_8);
+        httpPost.setEntity(params);
+        
+        // 发送请求
+        HttpClient httpclient = new DefaultHttpClient(); 
+        HttpResponse response = httpclient.execute(httpPost);
+        
+        // 处理返回结果
+        String resCont = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+        System.out.println(resCont);
+        
+        JSONObject res = new JSONObject(resCont); 
+        JSONObject status = res.getJSONObject("status");
+        if(status.getInt("code") != 200) {
+        	System.out.println("request failed: code=<" + status.getInt("code") + ">, message=<" + status.getString("message") + ">");
+        }
+        else {
+        	JSONObject result = res.getJSONObject("result");
+        	System.out.println("result:\n" + result.toString(4));
+        	System.out.println("request succeeded");
+        }
+    }
+    
+    public static void main(String[] args) throws Exception {
+        String url = "http://127.0.0.1:5000/api/resume_parser";	
+        String fname = "./test-resume.txt";	// 替换为你的简历文件名，确保后缀名正确
+        String token = "tk-1234567890";		// YOUR TOKEN
+
+        testResumeParser(url, fname, token);
+    }
+}
 ```
 
 ### 购买须知
